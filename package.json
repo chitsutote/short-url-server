@@ -1,0 +1,8 @@
+{
+  "name": "short-url-server",
+  "version": "0.0.1",
+  "description": "server for short url website",
+  "main": "index.js",
+  "author": "ling",
+  "license": "MIT"
+}
