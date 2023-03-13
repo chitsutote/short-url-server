@@ -12,6 +12,6 @@ const appDataSource = new DataSource({
   entities: [],
   subscribers: [],
   migrations: [],
-});
+})
 
 export default appDataSource;
