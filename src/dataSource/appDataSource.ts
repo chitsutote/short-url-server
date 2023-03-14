@@ -1,5 +1,5 @@
 import { DataSource } from 'typeorm';
-import ShortUrlEntity from './modules/short-url/short-url.entity';
+import ShortUrlEntity from '../modules/short-url/short-url.entity';
 
 const appDataSource = new DataSource({
   type: 'postgres',

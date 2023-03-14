@@ -5,7 +5,7 @@ import * as moment from 'moment';
 import { StatusCodes } from 'http-status-codes';
 import validator from 'validator';
 const linkCheck = require('link-check');
-import appDataSource from '../../appDataSource';
+import appDataSource from '../../dataSource/appDataSource';
 import { cryptoRandomString } from '../../utils/random';
 import shortUrlEntity from './short-url.entity';
 
@@ -42,7 +42,7 @@ router.post('/short-url', async (ctx:Koa.Context, next: Koa.Next) => {
 
     return next();
   }
-  
+
   try {
     const result = await linkCheckPromise(url);
 

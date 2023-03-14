@@ -38,3 +38,6 @@ lerna-debug.log*
 
 # postgres generated
 postgres/
+
+# redis data folder
+redis
