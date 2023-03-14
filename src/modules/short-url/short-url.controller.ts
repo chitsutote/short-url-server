@@ -2,6 +2,8 @@ import * as Koa from 'koa';
 import * as Router from 'koa-router';
 import { Repository } from 'typeorm';
 import * as moment from 'moment';
+import { StatusCodes } from 'http-status-codes';
+import validator from 'validator';
 const linkCheck = require('link-check');
 import appDataSource from '../../appDataSource';
 import { cryptoRandomString } from '../../utils/random';
@@ -31,23 +33,32 @@ const linkCheckPromise = async (url: string): Promise<{
 
 router.post('/short-url', async (ctx:Koa.Context, next: Koa.Next) => {
   const { url } = ctx.request.body as { url: string };
+
+  if (!validator.isURL(url)) {
+    ctx.status = StatusCodes.BAD_REQUEST;
+    ctx.body = {
+      error: 'Invalid url',
+    };
+
+    return next();
+  }
   
   try {
-    const result = await linkCheckPromise(url)
+    const result = await linkCheckPromise(url);
 
     if (!!result.error || result.status === 'dead') {
       ctx.body = {
         error: 'The url is unavailable',
-      }
+      };
 
-      return next()
+      return next();
     }
   } catch (error) {
     ctx.body = {
       error: 'The url is unavailable',
-    }
+    };
 
-    return next()
+    return next();
   }
 
   const shortId = cryptoRandomString({ length: 6, type: 'alphanumeric' });
