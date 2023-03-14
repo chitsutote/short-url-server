@@ -2,7 +2,7 @@ import * as Koa from 'koa';
 import * as bodyParser from 'koa-bodyparser';
 import { StatusCodes } from 'http-status-codes';
 const cors = require('@koa/cors');
-import controller from './controller';
+import routers from './routes';
 
 const app:Koa = new Koa();
 
@@ -21,8 +21,7 @@ app.use(cors({
   origin: 'http://127.0.0.1:5173',
 }));
 app.use(bodyParser());
-app.use(controller.routes());
-app.use(controller.allowedMethods());
+app.use(routers());
 
 app.on('error', console.error);
 

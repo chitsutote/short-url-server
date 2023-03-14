@@ -1,4 +1,5 @@
 import { DataSource } from 'typeorm';
+import ShortUrlEntity from './modules/short-url/short-url.entity';
 
 const appDataSource = new DataSource({
   type: 'postgres',
@@ -9,9 +10,11 @@ const appDataSource = new DataSource({
   database: 'short-url-db',
   synchronize: true,
   logging: true,
-  entities: [],
+  entities: [
+    ShortUrlEntity,
+  ],
   subscribers: [],
   migrations: [],
-})
+});
 
 export default appDataSource;
