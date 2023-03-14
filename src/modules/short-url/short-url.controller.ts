@@ -65,4 +65,16 @@ router.post('/short-url', async (ctx:Koa.Context, next: Koa.Next) => {
   };
 });
 
+router.get('/short-urls', async (ctx:Koa.Context) => {
+  const shortUrls = await shortUrlRepository.find({
+    order: {
+      created_at: 'DESC',
+    },
+  });
+
+  ctx.body = {
+    urls: shortUrls,
+  };
+});
+
 export default router;
