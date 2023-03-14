@@ -1,8 +1,8 @@
 import * as Koa from 'koa';
 import * as Router from 'koa-router';
 import { Repository } from 'typeorm';
-import { StatusCodes } from 'http-status-codes';
 import * as moment from 'moment';
+const linkCheck = require('link-check');
 import appDataSource from '../../appDataSource';
 import { cryptoRandomString } from '../../utils/random';
 import shortUrlEntity from './short-url.entity';
@@ -11,8 +11,44 @@ const shortUrlRepository: Repository<shortUrlEntity> = appDataSource.getReposito
 
 const router: Router = new Router();
 
-router.post('/short-url', async (ctx:Koa.Context) => {
+const linkCheckPromise = async (url: string): Promise<{
+  link: string
+  status: 'alive' | 'dead'
+  statusCode: number
+  error?: any,
+}> => {
+  return new Promise((resolve, reject) => {
+    linkCheck(url, { timeout: '4s' }, (err: any, result: any) => {
+      if (err) {
+        reject(err);
+      }
+
+      resolve(result);
+    });
+  });
+
+};
+
+router.post('/short-url', async (ctx:Koa.Context, next: Koa.Next) => {
   const { url } = ctx.request.body as { url: string };
+  
+  try {
+    const result = await linkCheckPromise(url)
+
+    if (!!result.error || result.status === 'dead') {
+      ctx.body = {
+        error: 'The url is unavailable',
+      }
+
+      return next()
+    }
+  } catch (error) {
+    ctx.body = {
+      error: 'The url is unavailable',
+    }
+
+    return next()
+  }
 
   const shortId = cryptoRandomString({ length: 6, type: 'alphanumeric' });
 
