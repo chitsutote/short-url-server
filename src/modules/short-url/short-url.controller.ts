@@ -43,6 +43,7 @@ router.post('/short-url', async (ctx:Koa.Context, next: Koa.Next) => {
     return next();
   }
 
+  // NOTE: check if site is available
   try {
     const result = await linkCheckPromise(url);
 

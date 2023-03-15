@@ -31,6 +31,11 @@ export default class ShortUrl {
   })
   expired_at?: Date;
 
+  @Column({
+    default: false,
+  })
+  is_expired: boolean;
+
   @CreateDateColumn({ type: 'timestamptz' })
   created_at: Date;
 

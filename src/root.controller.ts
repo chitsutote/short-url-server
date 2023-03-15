@@ -26,6 +26,7 @@ router.get('/:short_id', async (ctx:Koa.Context, next: Koa.Next) => {
       await redisSource.del(short_id);
       ctx.status = StatusCodes.OK;
       ctx.body = 'Link Expired';
+      await shortUrlRepository.update({ short_id }, { is_expired: true });
 
       return next();
     }
@@ -56,9 +57,11 @@ router.get('/:short_id', async (ctx:Koa.Context, next: Koa.Next) => {
     expired_at,
   } = shortUrlRecord;
 
+  // NOTE: check if link is expired
   if (moment().startOf('day').utc().diff(moment(expired_at).utc(), 'days') >= 3) {
     ctx.status = StatusCodes.OK;
     ctx.body = 'Link Expired';
+    await shortUrlRepository.update({ id }, { is_expired: true });
 
     return next();
   }

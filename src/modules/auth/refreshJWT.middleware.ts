@@ -1,5 +1,4 @@
 import * as Koa from 'koa';
-import * as jwt from 'jsonwebtoken';
 import JWTService, { ShortUrlJwtPayload } from '../../service/jwtService';
 
 const refreshJWTToken = async (ctx: Koa.Context, next: Koa.Next) => {
