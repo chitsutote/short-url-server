@@ -30,14 +30,14 @@ src
  ┃ ┣ appDataSource.ts
  ┃ ┗ redisSource.ts
  ┣ modules # group by module, contains its entity, controller, middleware
- ┃ ┣ auth 
- ┃ ┗ short-url
+ ┃ ┣ auth # auth related 
+ ┃ ┣ short-url # CRUD short url related
+ ┃ ┗ redirect # when short url redirection related
  ┣ service # 3rd party service
  ┃ ┗ jwtService.ts
  ┣ utils
  ┃ ┗ random.ts
  ┣ app.ts
- ┣ root.controller.ts # handle short url redirect
  ┣ routes.ts  # aggregate all routes
  ┗ server.ts
  ```

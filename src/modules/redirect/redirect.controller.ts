@@ -3,9 +3,9 @@ import * as Router from 'koa-router';
 import { Repository } from 'typeorm';
 import { StatusCodes } from 'http-status-codes';
 import * as moment from 'moment';
-import appDataSource from './dataSource/appDataSource';
-import redisSource from './dataSource/redisSource';
-import shortUrlEntity from './modules/short-url/short-url.entity';
+import appDataSource from '../../dataSource/appDataSource';
+import redisSource from '../../dataSource/redisSource';
+import shortUrlEntity from '../short-url/short-url.entity';
 
 const shortUrlRepository: Repository<shortUrlEntity> = appDataSource.getRepository(shortUrlEntity);
 
