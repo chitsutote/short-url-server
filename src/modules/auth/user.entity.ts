@@ -25,5 +25,5 @@ export default class User {
     type => ShortUrlEntity,
     short_url => short_url.user,
   )
-  short_urls: ShortUrlEntity[]
+  short_urls: ShortUrlEntity[];
 }

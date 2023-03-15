@@ -67,6 +67,9 @@ router.post('/short-url', async (ctx:Koa.Context, next: Koa.Next) => {
     short_id: shortId,
     original_url: url,
     expired_at: moment().startOf('day').utc().add(3, 'days'),
+    user: {
+      id: ctx.userId,
+    },
   });
 
   await shortUrlRepository.save(shortUrlRecord);
@@ -77,7 +80,13 @@ router.post('/short-url', async (ctx:Koa.Context, next: Koa.Next) => {
 });
 
 router.get('/short-urls', async (ctx:Koa.Context) => {
+  const userId = ctx.userId;
   const shortUrls = await shortUrlRepository.find({
+    where: {
+      user: {
+        id: userId,
+      },
+    },
     order: {
       created_at: 'DESC',
     },

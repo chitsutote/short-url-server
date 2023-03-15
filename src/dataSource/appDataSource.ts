@@ -1,5 +1,6 @@
 import { DataSource } from 'typeorm';
 import ShortUrlEntity from '../modules/short-url/short-url.entity';
+import UserEntity from '../modules/auth/user.entity';
 
 const appDataSource = new DataSource({
   type: 'postgres',
@@ -12,6 +13,7 @@ const appDataSource = new DataSource({
   logging: true,
   entities: [
     ShortUrlEntity,
+    UserEntity,
   ],
   subscribers: [],
   migrations: [],

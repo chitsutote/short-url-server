@@ -39,7 +39,7 @@ export default class ShortUrl {
     {
       cascade: ['insert', 'update'],
       nullable: true,
-    }
+    },
   )
   @JoinColumn({ name: 'user_id' })
   user?: UserEntity;
