@@ -66,7 +66,7 @@ router.post('/short-url', async (ctx:Koa.Context, next: Koa.Next) => {
   const shortUrlRecord = await shortUrlRepository.create({
     short_id: shortId,
     original_url: url,
-    expired_at: moment().utc().add(3, 'days'),
+    expired_at: moment().startOf('day').utc().add(3, 'days'),
   });
 
   await shortUrlRepository.save(shortUrlRecord);

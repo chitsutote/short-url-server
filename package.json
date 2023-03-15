@@ -37,6 +37,7 @@
     "validator": "^13.9.0"
   },
   "devDependencies": {
+    "@types/moment": "^2.13.0",
     "@types/validator": "^13.7.14"
   }
 }
