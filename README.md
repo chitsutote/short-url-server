@@ -17,7 +17,7 @@ run command `yarn` to install dependencies
 ```
 2. After docker container is ready, start the app
 ```
-yarn start
+yarn start:local
 ```
 
 

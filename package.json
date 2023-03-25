@@ -9,7 +9,7 @@
     "lint": "tslint --project tsconfig.json --format stylish",
     "build": "tsc",
     "serve": "ts-node src/server.ts",
-    "start": "nodemon"
+    "start:local": "NODE_ENV=local nodemon"
   },
   "dependencies": {
     "@koa/cors": "^4.0.0",
@@ -20,6 +20,7 @@
     "@types/node": "^18.15.1",
     "bcrypt": "^5.1.0",
     "crypto": "^1.0.1",
+    "dotenv": "^16.0.3",
     "http-status-codes": "^2.2.0",
     "ioredis": "^5.3.1",
     "jsonwebtoken": "^9.0.0",

@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 import { StatusCodes } from 'http-status-codes';
 import * as moment from 'moment';
 import appDataSource from '../../dataSource/appDataSource';
-import redisSource from '../../dataSource/redisSource';
+import cacheDataSource from '../../dataSource/cacheDataSource';
 import shortUrlEntity from '../short-url/short-url.entity';
 
 const shortUrlRepository: Repository<shortUrlEntity> = appDataSource.getRepository(shortUrlEntity);
@@ -14,7 +14,7 @@ const router: Router = new Router();
 router.get('/:short_id', async (ctx:Koa.Context, next: Koa.Next) => {
   const { short_id }: { short_id: string } = ctx.params;
 
-  const cachedUrlRecord = await redisSource.get(short_id);
+  const cachedUrlRecord = await cacheDataSource.get(short_id);
 
   if (cachedUrlRecord) {
     const {
@@ -23,7 +23,7 @@ router.get('/:short_id', async (ctx:Koa.Context, next: Koa.Next) => {
     } = JSON.parse(cachedUrlRecord);
 
     if (moment().startOf('day').utc().diff(moment(expired_at).utc(), 'days') >= 3) {
-      await redisSource.del(short_id);
+      await cacheDataSource.del(short_id);
       ctx.status = StatusCodes.OK;
       ctx.body = 'Link Expired';
       await shortUrlRepository.update({ short_id }, { is_expired: true });
@@ -70,7 +70,7 @@ router.get('/:short_id', async (ctx:Koa.Context, next: Koa.Next) => {
   await shortUrlRepository.update({ id }, { click_times: nextClickTimes });
 
   if (nextClickTimes > 1) {
-    await redisSource.set(short_id, JSON.stringify({
+    await cacheDataSource.set(short_id, JSON.stringify({
       original_url,
       expired_at,
     }));
