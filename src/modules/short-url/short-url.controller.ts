@@ -62,6 +62,25 @@ router.post('/short-url', async (ctx:Koa.Context, next: Koa.Next) => {
     return next();
   }
 
+  const pastShortUrlRecord = await shortUrlRepository.findOneBy({
+    original_url: url,
+    user: {
+      id: ctx.userId,
+    },
+  });
+
+  if (!!pastShortUrlRecord) {
+    const {
+      short_id,
+    } = pastShortUrlRecord;
+
+    ctx.body = {
+      url: `http://127.0.0.1:3000/${short_id}`,
+    };
+
+    return next();
+  }
+
   const shortId = cryptoRandomString({ length: 6, type: 'alphanumeric' });
 
   const shortUrlRecord = await shortUrlRepository.create({
